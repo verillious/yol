@@ -1,87 +1,79 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://autoload/post_processing/crt_material.tres" type="Material" id=1]
-[ext_resource path="res://autoload/post_processing/post_processing.gd" type="Script" id=2]
 [ext_resource path="res://autoload/post_processing/grunge.jpg" type="Texture" id=3]
-[ext_resource path="res://autoload/post_processing/Blur.shader" type="Shader" id=5]
-[ext_resource path="res://autoload/post_processing/Sharpness.shader" type="Shader" id=6]
-[ext_resource path="res://autoload/post_processing/TV.shader" type="Shader" id=8]
 
-[sub_resource type="ShaderMaterial" id=3]
-shader = ExtResource( 5 )
-shader_param/amount = 0.11
+[sub_resource type="GDScript" id=2]
+script/source = "extends CanvasLayer
 
-[sub_resource type="ShaderMaterial" id=5]
-shader = ExtResource( 8 )
-shader_param/vertJerkOpt = 0.0
-shader_param/vertMovementOpt = 0.0
-shader_param/bottomStaticOpt = 0.0
-shader_param/bottomStaticStrenth = 0.0
-shader_param/scalinesOpt = 0.0
-shader_param/rgbOffsetOpt = 0.054
-shader_param/horzFuzzOpt = 0.02
+var _impact_duration := 0.0
 
-[sub_resource type="ShaderMaterial" id=4]
-shader = ExtResource( 6 )
-shader_param/sharpen_amount = 0.292
+
+func _process(delta: float) -> void:
+	if not _impact_duration <= 0.0:
+		_impact_duration = max(0.0, _impact_duration - delta)
+		if _impact_duration == 0.0:
+			set_pixel_size()
+			set_vignette()
+			set_ca()
+
+
+func toggle_crt(enabled := true) -> void:
+	get_node(\"CRT\").material.set_shader_param(\"show_horizontal_scan_lines\", enabled)
+
+
+func toggle_blur(enabled := true) -> void:
+	get_node(\"Blur\").visible = enabled
+
+
+func toggle_tv(enabled := true) -> void:
+	get_node(\"TV\").visible = enabled
+
+
+func toggle_sharpen(enabled := true) -> void:
+	get_node(\"Sharpness\").visible = enabled
+
+
+func toggle_grain(enabled := true) -> void:
+	get_node(\"CRT\").material.set_shader_param(\"show_grain\", enabled)
+
+
+func toggle_vignette(enabled := true) -> void:
+	get_node(\"CRT\").material.set_shader_param(\"show_vignette\", enabled)
+
+
+func toggle_dirt(enabled := true) -> void:
+	get_node(\"Dirt\").visible = enabled
+
+
+func set_ca(new_amount := 0.75) -> void:
+	get_node(\"CRT\").material.set_shader_param(\"aberration_amount\", new_amount)
+
+
+func toggle_ca(enabled := true) -> void:
+	get_node(\"CRT\").material.set_shader_param(\"show_ca\", enabled)
+
+
+func set_pixel_size(pixel_size := 0) -> void:
+	get_node(\"CRT\").material.set_shader_param(\"pixel_size\", pixel_size)
+
+
+func set_vignette(new_size := 4.0, new_opacity := 0.15) -> void:
+	get_node(\"CRT\").material.set_shader_param(\"vignette_size\", new_size)
+	get_node(\"CRT\").material.set_shader_param(\"vignette_opacity\", new_opacity)
+
+
+func impact(size := 2, duration := 0.1) -> void:
+	set_pixel_size(size)
+	set_vignette(2.0 + size * 2)
+	set_ca(size * 3)
+	_impact_duration = duration
+"
 
 [sub_resource type="CanvasItemMaterial" id=1]
 
 [node name="PostProcessing" type="CanvasLayer"]
 layer = 128
-script = ExtResource( 2 )
-
-[node name="CRT" type="ColorRect" parent="."]
-material = ExtResource( 1 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="BackBufferCopy" type="BackBufferCopy" parent="."]
-scale = Vector2( -0.000372314, -0.000900849 )
-copy_mode = 2
-rect = Rect2( 0, 0, 1280, 720 )
-
-[node name="Blur" type="ColorRect" parent="."]
-material = SubResource( 3 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="BackBufferCopy2" type="BackBufferCopy" parent="."]
-rotation = -3.14159
-scale = Vector2( 0.000372314, 0.000900849 )
-copy_mode = 2
-rect = Rect2( 0, 0, 1280, 720 )
-
-[node name="TV" type="ColorRect" parent="."]
-material = SubResource( 5 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="BackBufferCopy3" type="BackBufferCopy" parent="."]
-rotation = 3.14159
-scale = Vector2( 0.000372314, 0.000900849 )
-copy_mode = 2
-rect = Rect2( 0, 0, 1280, 720 )
-
-[node name="Sharpness" type="ColorRect" parent="."]
-material = SubResource( 4 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+script = SubResource( 2 )
 
 [node name="Dirt" type="Control" parent="."]
 anchor_right = 1.0
