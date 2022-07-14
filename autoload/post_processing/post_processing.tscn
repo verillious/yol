@@ -1,0 +1,100 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://autoload/post_processing/crt_material.tres" type="Material" id=1]
+[ext_resource path="res://autoload/post_processing/post_processing.gd" type="Script" id=2]
+[ext_resource path="res://autoload/post_processing/grunge.jpg" type="Texture" id=3]
+[ext_resource path="res://autoload/post_processing/Blur.shader" type="Shader" id=5]
+[ext_resource path="res://autoload/post_processing/Sharpness.shader" type="Shader" id=6]
+[ext_resource path="res://autoload/post_processing/TV.shader" type="Shader" id=8]
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = ExtResource( 5 )
+shader_param/amount = 0.11
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = ExtResource( 8 )
+shader_param/vertJerkOpt = 0.0
+shader_param/vertMovementOpt = 0.0
+shader_param/bottomStaticOpt = 0.0
+shader_param/bottomStaticStrenth = 0.0
+shader_param/scalinesOpt = 0.0
+shader_param/rgbOffsetOpt = 0.054
+shader_param/horzFuzzOpt = 0.02
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 6 )
+shader_param/sharpen_amount = 0.292
+
+[sub_resource type="CanvasItemMaterial" id=1]
+
+[node name="PostProcessing" type="CanvasLayer"]
+layer = 128
+script = ExtResource( 2 )
+
+[node name="CRT" type="ColorRect" parent="."]
+material = ExtResource( 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="."]
+scale = Vector2( -0.000372314, -0.000900849 )
+copy_mode = 2
+rect = Rect2( 0, 0, 1280, 720 )
+
+[node name="Blur" type="ColorRect" parent="."]
+material = SubResource( 3 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="BackBufferCopy2" type="BackBufferCopy" parent="."]
+rotation = -3.14159
+scale = Vector2( 0.000372314, 0.000900849 )
+copy_mode = 2
+rect = Rect2( 0, 0, 1280, 720 )
+
+[node name="TV" type="ColorRect" parent="."]
+material = SubResource( 5 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BackBufferCopy3" type="BackBufferCopy" parent="."]
+rotation = 3.14159
+scale = Vector2( 0.000372314, 0.000900849 )
+copy_mode = 2
+rect = Rect2( 0, 0, 1280, 720 )
+
+[node name="Sharpness" type="ColorRect" parent="."]
+material = SubResource( 4 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Dirt" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="Dirt"]
+self_modulate = Color( 1, 1, 1, 0.027451 )
+show_behind_parent = true
+material = SubResource( 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 7
