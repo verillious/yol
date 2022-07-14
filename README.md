@@ -1,6 +1,9 @@
 # :scroll: [Year of Our Lord](verillious.github.io/yol)
 [![Made with Godot](https://img.shields.io/badge/Made%20with-Godot-478CBF?style=flat&logo=godot%20engine&logoColor=white)](https://godotengine.org)
 ![Pulse](https://img.shields.io/github/commit-activity/m/verillious/yol)
+![Checks](https://github.com/verillious/yol/actions/workflows/godot-tests.yml/badge.svg)
+![Export](https://github.com/verillious/yol/actions/workflows/godot-export.yml/badge.svg)
+
 > Example project for [:mantelpiece_clock: godot-datetime](https://github.com/verillious/godot-datetime) and [:scroll: godot-number-to-words](https://github.com/verillious/godot-number-to-words)
 
 Credits

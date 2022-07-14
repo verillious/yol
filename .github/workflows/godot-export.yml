@@ -25,7 +25,7 @@ jobs:
       - name: install tox
         run: python -m pip install tox --user
       - name: build
-        run: python -m tox -e build
+        run: python -m tox -e export
       - name: upload artifact
         uses: actions/upload-artifact@v1
         with:
