@@ -1,4 +1,4 @@
-# :scroll: [Year of Our Lord](verillious.github.io/yol)
+# :scroll: [Year of Our Lord](https://verillious.github.io/yol)
 [![Made with Godot](https://img.shields.io/badge/Made%20with-Godot-478CBF?style=flat&logo=godot%20engine&logoColor=white)](https://godotengine.org)
 ![Pulse](https://img.shields.io/github/commit-activity/m/verillious/yol)
 ![Export](https://github.com/verillious/yol/actions/workflows/godot-export.yml/badge.svg)
