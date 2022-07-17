@@ -5,6 +5,8 @@
 
 > Example project for [:mantelpiece_clock: godot-datetime](https://github.com/verillious/godot-datetime) and [:scroll: godot-number-to-words](https://github.com/verillious/godot-number-to-words)
 
+<br>
+
 Credits
 -------
 
