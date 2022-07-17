@@ -1,7 +1,5 @@
 extends Control
 
-var datetime = DateTime.now()
-
 var _delta_index := 0.0
 var _speed := 1.0
 
@@ -13,11 +11,8 @@ func _ready() -> void:
 	$ScrollContainer.get_v_scrollbar().rect_scale = Vector2.ZERO
 
 
-func _process(delta: float) -> void:
-	_delta_index += delta
-	if _delta_index >= 1.0:
-		datetime = datetime.add_seconds(1)
-		_delta_index = 0.0
+func _process(_delta: float) -> void:
+	var datetime = DateTime.now()
 	var text = (
 		"it is the %s day\nof the year of our lord %s\nbeing the %s day of %s\n%s %s past the hour of %s"
 		% [
@@ -32,3 +27,4 @@ func _process(delta: float) -> void:
 	)
 	label.text = text
 	font.size = 32 if get_viewport().size.x < 600 else 48 if get_viewport().size.x < 1000 else 64
+W
